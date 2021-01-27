@@ -1,0 +1,21 @@
+{
+	"name": "Node.js",
+	"dockerComposeFile": "../docker-compose-dev.yml",
+	"service": "code",
+	"workspaceFolder": "/workspace",
+	"shutdownAction": "stopCompose",
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/bash"
+	},
+	"extensions": [
+		"tombonnike.vscode-status-bar-format-toggle",
+		"dbaeumer.vscode-eslint",
+		"esbenp.prettier-vscode",
+		"orta.vscode-jest",
+		"firsttris.vscode-jest-runner"
+	],
+	"forwardPorts": [
+		8080
+	],
+	"remoteUser": "node"
+}
