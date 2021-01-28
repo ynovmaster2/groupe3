@@ -1,0 +1,13 @@
+{
+  "editor.insertSpaces": false,
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.formatOnSave": false,
+  },
+  "editor.codeActionsOnSave": {
+    //"source.fixAll": true
+    // For ESLint
+    "source.fixAll.eslint": true
+  }
+}
