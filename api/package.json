@@ -2,7 +2,7 @@
 	"name": "workspace",
 	"version": "1.0.0",
 	"description": "conception d'un système de suivi des projets",
-	"main": "index.js",
+	"main": "bin/www",
 	"scripts": {
 		"start": "node ./bin/www",
 		"test": "jest"
