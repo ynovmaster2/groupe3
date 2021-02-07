@@ -46,8 +46,8 @@ exports.update = (req, res) => {
 		(err) => formatRes(res, null, 500, err)
 	)
 }
-
-exports.deleteOragnisme = (req, res) => {
+// function name deleteOragnisme make error
+exports.deleteOragnismefix = (req, res) => {
 	Oragnisme.findByIdAndRemove(req.params.id).then(
 		(data) => {
 			if (!data)

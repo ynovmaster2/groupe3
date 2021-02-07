@@ -3,7 +3,7 @@ const { create } = require("../controller/organisme.controller")
 const { findAll } = require("../controller/organisme.controller")
 const { findOne } = require("../controller/organisme.controller")
 const { update } = require("../controller/organisme.controller")
-// const { deleteOrganisme } = require("../controller/organisme.controller")
+const { deleteOragnismefix } = require("../controller/organisme.controller")
 
 const router = express.Router()
 
@@ -15,6 +15,7 @@ router.post("", create)
 
 router.put("/:id", update)
 
-// router.delete("/:id", deleteOrganisme)
+// function name deleteOragnisme make error
+router.delete("/:id", deleteOragnismefix)
 
 module.exports = router
