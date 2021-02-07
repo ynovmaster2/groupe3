@@ -1,4 +1,9 @@
 const express = require("express")
+const { create } = require("../controller/user.controller")
+const { findAll } = require("../controller/user.controller")
+const { findOne } = require("../controller/user.controller")
+const { update } = require("../controller/user.controller")
+const { deleteUser } = require("../controller/user.controller")
 
 const router = express.Router()
 
@@ -7,25 +12,14 @@ const router = express.Router()
 // 	res.status(200).send("ok\n")
 // })
 
-router.get("", (req, res, next) => {
-	res.status(200).json([{"success":true,
-	"code":200,
-	"message":"Ok",
-	"data": [{id: "toto",email:"toto@toto.fr",role:"chef",tel:"09090909",createdAt:"1612606573",updatedAt:"1612606573"}]	
-	}])
-})
+router.get("", findAll)
 
-router.post("", (req, res, next) => {
-	res.status(201).json(req.body)
-})
+router.get("/:userId", findOne)
 
-router.put("", (req, res, next) => {
-	res.status(201).json(req.body)
-})
+router.post("", create)
 
-router.delete("", (req, res, next) => {
-	res.status(200).json(req.body)
-})
+router.put("/:userId", update)
 
+router.delete("/:userId", deleteUser)
 
 module.exports = router

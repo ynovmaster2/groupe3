@@ -1,27 +1,20 @@
 const express = require("express")
+const { create } = require("../controller/organisme.controller")
+const { findAll } = require("../controller/organisme.controller")
+const { findOne } = require("../controller/organisme.controller")
+const { update } = require("../controller/organisme.controller")
+const { deleteOrganisme } = require("../controller/organisme.controller")
 
 const router = express.Router()
 
+router.get("/:organismetId", findOne)
 
-router.get("", (req, res, next) => {
-	res.status(200).json([{"success":true,
-	"code":200,
-	"message":"Ok",
-	"data": [{nom: "Grand groupe", createdAt:"1612606573", updatedAt:"1612606573"}],
-	}])
-})
+router.get("", findAll)
 
-router.post("", (req, res, next) => {
-	res.status(201).json(req.body)
-})
+router.post("", create)
 
-router.put("", (req, res, next) => {
-	res.status(201).json(req.body)
-})
+router.put("/:organismetId", update)
 
-router.delete("", (req, res, next) => {
-	res.status(200).json(req.body)
-})
-
+router.delete("/:organismetId", deleteOrganisme)
 
 module.exports = router
