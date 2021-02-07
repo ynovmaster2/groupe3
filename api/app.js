@@ -2,6 +2,8 @@ const express = require("express")
 const path = require("path")
 const cookieParser = require("cookie-parser")
 const logger = require("morgan")
+// eslint-disable-next-line no-unused-vars
+const db = require("./service/bdd")
 
 const userRouter = require("./routes/user")
 const projetRouter = require("./routes/projet")
