@@ -14,12 +14,12 @@ const router = express.Router()
 
 router.get("", findAll)
 
-router.get("/:userId", findOne)
+router.get("/:id", findOne)
 
 router.post("", create)
 
-router.put("/:userId", update)
+router.put("/:id", update)
 
-router.delete("/:userId", deleteUser)
+router.delete("/:id", deleteUser)
 
 module.exports = router
