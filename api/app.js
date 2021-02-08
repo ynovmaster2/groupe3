@@ -2,9 +2,8 @@ const express = require("express")
 const path = require("path")
 const cookieParser = require("cookie-parser")
 const logger = require("morgan")
-// eslint-disable-next-line no-unused-vars
-const db = require("./service/bdd")
 
+const indexRouter = require("./routes/index")
 const userRouter = require("./routes/user")
 const projetRouter = require("./routes/projet")
 const phaseRouter = require("./routes/phase")
@@ -18,6 +17,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, "public")))
+
+app.use("/", indexRouter)
 
 app.use("/user", userRouter)
 app.use("/projet", projetRouter)

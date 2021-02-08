@@ -4,13 +4,15 @@ const mongoose = require("mongoose")
 
 mongoose.set("debug", true)
 
-const host = "mongo"
-const port = "27017"
-const user = "root"
-const pass = "example"
-const dbname = "bob"
-// const url = `mongodb://${user}:${pass}@${host}:${port}` // -> test
-const url = `mongodb://${user}:${pass}@${host}:${port}/${dbname}?authSource=admin`
+const dbconfig = {
+	host: process.env.CONFIG_MONGODB_HOST,
+	port: process.env.CONFIG_MONGODB_POST,
+	user: process.env.CONFIG_MONGODB_USERNAME,
+	pass: process.env.CONFIG_MONGODB_PASSWORD,
+	dbname: process.env.CONFIG_MONGODB_NAME ?? "db",
+}
+
+const url = `mongodb://${dbconfig.user}:${dbconfig.pass}@${dbconfig.host}:${dbconfig.port}/${dbconfig.dbname}?authSource=admin`
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection

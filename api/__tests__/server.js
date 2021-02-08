@@ -1,5 +1,10 @@
 const request = require("supertest")
+const mongoose = require("mongoose")
 const app = require("../app")
+
+afterAll((done) => {
+	mongoose.connection.close(done)
+})
 
 describe("Test the root path", () => {
 	test("It should response the GET method", (done) => {
