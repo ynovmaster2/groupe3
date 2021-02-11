@@ -17,6 +17,7 @@
 	},
 	"homepage": "https://github.com/ynovmaster2/groupe3#readme",
 	"jest": {
+		"collectCoverage": true,
 		"moduleFileExtensions": [
 			"js"
 		],

@@ -1,0 +1,41 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI WEB
+
+on:
+  push:
+    paths:
+    - 'web/**'
+  pull_request:
+
+jobs:
+  test-web:
+    defaults:
+      run:
+        working-directory: web
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14.x
+    - name: Cache
+      uses: actions/cache@v2.1.3
+      with:
+        path: web/node_modules 
+        key: test-web-${BRANCH_NAME}
+
+    - name: npm install
+      run: npm ci
+    - name: build
+      run: npm run build --if-present
+    - name: test
+      run: npm test
+    - name: articaft
+      uses: actions/upload-artifact@v2
+      with:
+        name: coverage-web
+        path: web/coverage
