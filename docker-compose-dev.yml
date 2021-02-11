@@ -9,6 +9,8 @@ services:
     volumes:
       - .:/workspace:cached
     command: /bin/sh -c "while sleep 1000; do :; done"
+    env_file:
+    - .env
   mongo:
     image: mongo
     restart: always
