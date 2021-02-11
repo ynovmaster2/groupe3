@@ -9,6 +9,11 @@ services:
     volumes:
       - .:/workspace:cached
     command: /bin/sh -c "while sleep 1000; do :; done"
+    environment:
+      CONFIG_MONGODB_HOST: mongo
+      CONFIG_MONGODB_POST: 27017
+      CONFIG_MONGODB_USERNAME: root
+      CONFIG_MONGODB_PASSWORD: example
   mongo:
     image: mongo
     restart: always
