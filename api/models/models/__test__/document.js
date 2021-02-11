@@ -18,7 +18,7 @@ describe("Model document", () => {
 		)
 	})
 
-	it("create & save Yolo successfully", async () => {
+	it("create & save Document successfully", async () => {
 		const data = {
 			nom: "test",
 			path: "http://path.ex",
