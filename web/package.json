@@ -4,7 +4,7 @@
 	"description": "conception d'un système de suivi des projets",
 	"private": true,
 	"scripts": {
-		"dev": "next dev",
+		"dev": "next dev -p 8080",
 		"build": "next build",
 		"start": "next start",
 		"test": "echo \"Error: no test specified\" && exit 1"
