@@ -1,7 +1,7 @@
 import { Component } from "react"
 import style from "../styles/Projet.module.css"
 import ProjetService from "../services/projet.service"
-import Header from "./header";
+import Header from "../components/header";
 
 export default class Projet extends Component{
 	state = {
