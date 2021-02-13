@@ -15,6 +15,7 @@
 		"firsttris.vscode-jest-runner"
 	],
 	"forwardPorts": [
+		3000,
 		8080
 	],
 	"remoteUser": "node"
