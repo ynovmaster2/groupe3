@@ -4,7 +4,7 @@
 	"description": "conception d'un système de suivi des projets",
 	"private": true,
 	"scripts": {
-		"dev": "next dev -p 8080",
+		"dev": "next dev -p 9090",
 		"build": "next build",
 		"start": "next start",
 		"test": "echo \"Error: no test specified\" && exit 1"
@@ -19,8 +19,10 @@
 	},
 	"homepage": "https://github.com/ynovmaster2/groupe3#readme",
 	"dependencies": {
+		"bootstrap": "^4.6.0",
 		"next": "10.0.6",
 		"react": "17.0.1",
+		"react-bootstrap": "^1.4.3",
 		"react-dom": "17.0.1"
 	},
 	"devDependencies": {
