@@ -12,7 +12,8 @@ exports.authorization = async (req, res, next, role = null) => {
 		getUser(token).then(
 			(u) => {
 				if (!u) formatRes(res, null, 401, "utilisateur non authentifié")
-				else if (u.role !== role) formatRes(res, null, 403, "accès refusé")
+				else if (role && u.role !== role)
+					formatRes(res, null, 403, "accès refusé")
 				else {
 					req.user = u
 					next()

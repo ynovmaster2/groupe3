@@ -63,6 +63,14 @@ describe("authorization", () => {
 		expect(getUser).toHaveBeenCalledWith("valid token")
 		expect(formatRes).toHaveBeenCalledWith("res", null, 403, "accès refusé")
 	})
+	test("should 403 if getUser && role = null", async () => {
+		const next = jest.fn()
+		const req = { query: { token: "valid token" } } // set res.user
+		await authorization(req, "res", next)
+		expect(getUser).toHaveBeenCalledWith("valid token")
+		expect(next).toHaveBeenCalled()
+		expect(req.user).toMatchObject({ role: "test" })
+	})
 	test("should next if getUser.role == role", async () => {
 		const next = jest.fn()
 		const req = { query: { token: "valid token" } } // set res.user
