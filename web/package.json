@@ -19,6 +19,7 @@
 	},
 	"homepage": "https://github.com/ynovmaster2/groupe3#readme",
 	"dependencies": {
+		"@rjsf/core": "^2.4.2",
 		"next": "10.0.6",
 		"react": "17.0.1",
 		"react-dom": "17.0.1"
