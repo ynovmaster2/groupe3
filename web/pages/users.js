@@ -8,7 +8,7 @@ export default class Users extends Component {
 	}
 
 	submit = (user) => {
-		return fetch(`http://localhost:3000/user/${user._id ?? ""}`, {
+		return fetch(`${process.env.apiUrl}/user/${user._id ?? ""}`, {
 			method: user._id ? "PUT" : "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(user),
@@ -20,7 +20,7 @@ export default class Users extends Component {
 			})
 	}
 	delete = (user) => {
-		return fetch(`http://localhost:3000/user/${user._id}`, {
+		return fetch(`${process.env.apiUrl}/user/${user._id}`, {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" },
 		})
@@ -57,10 +57,7 @@ export default class Users extends Component {
 
 // only in page dir
 export async function getServerSideProps(context) {
-	const users = await fetch(
-		//await fetch(`${process.env.apiUrl}/user`)
-		`http://localhost:3000/user`
-	)
+	const users = await fetch(`${process.env.apiUrl}/user`)
 		.then((response) => response.json())
 		.then((res) => {
 			if (res.code === 200) return res.data

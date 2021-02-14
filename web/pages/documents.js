@@ -8,19 +8,20 @@ export default class Documents extends Component {
 	}
 
 	submit = (document) => {
-		return fetch(`http://localhost:3000/document/${document._id ?? ""}`, {
+		return fetch(`${process.env.apiUrl}/document/${document._id ?? ""}`, {
 			method: document._id ? "PUT" : "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(document),
 		})
 			.then((response) => response.json())
 			.then((e) => {
-				!document._id && this.setState({ documents: [...this.state.documents, e.data] })
+				!document._id &&
+					this.setState({ documents: [...this.state.documents, e.data] })
 				console.log("update", e)
 			})
 	}
 	delete = (document) => {
-		return fetch(`http://localhost:3000/document/${document._id}`, {
+		return fetch(`${process.env.apiUrl}/document/${document._id}`, {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" },
 		})
@@ -57,10 +58,7 @@ export default class Documents extends Component {
 
 // only in page dir
 export async function getServerSideProps(context) {
-	const documents = await fetch(
-		//await fetch(`${process.env.apiUrl}/document`)
-		`http://localhost:3000/document`
-	)
+	const documents = await fetch(`${process.env.apiUrl}/document`)
 		.then((response) => response.json())
 		.then((res) => {
 			if (res.code === 200) return res.data
