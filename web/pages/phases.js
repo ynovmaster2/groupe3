@@ -9,7 +9,7 @@ export default class Phases extends Component {
 
 	submit = (phase) => {
 		console.log("je qui dans fetch")
-		return fetch(`http://localhost:3000/phase/${phase._id ?? ""}`, {
+		return fetch(`${process.env.apiUrl}/phase/${phase._id ?? ""}`, {
 			method: phase._id ? "PUT" : "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(phase),
@@ -21,7 +21,7 @@ export default class Phases extends Component {
 			})
 	}
 	delete = (phase) => {
-		return fetch(`http://localhost:3000/phase/${phase._id}`, {
+		return fetch(`${process.env.apiUrl}/phase/${phase._id}`, {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" },
 		})
@@ -58,10 +58,7 @@ export default class Phases extends Component {
 
 // only in page dir
 export async function getServerSideProps(context) {
-	const phases = await fetch(
-		//await fetch(`${process.env.apiUrl}/phase`)
-		`http://localhost:3000/phase`
-	)
+	const phases = await fetch(`${process.env.apiUrl}/phase`)
 		.then((response) => response.json())
 		.then((res) => {
 			if (res.code === 200) return res.data

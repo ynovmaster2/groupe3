@@ -8,19 +8,20 @@ export default class Organismes extends Component {
 	}
 
 	submit = (organisme) => {
-		return fetch(`http://localhost:3000/organisme/${organisme._id ?? ""}`, {
+		return fetch(`${process.env.apiUrl}/organisme/${organisme._id ?? ""}`, {
 			method: organisme._id ? "PUT" : "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(organisme),
 		})
 			.then((response) => response.json())
 			.then((e) => {
-				!organisme._id && this.setState({ organismes: [...this.state.organismes, e.data] })
+				!organisme._id &&
+					this.setState({ organismes: [...this.state.organismes, e.data] })
 				console.log("update", e)
 			})
 	}
 	delete = (organisme) => {
-		return fetch(`http://localhost:3000/organisme/${organisme._id}`, {
+		return fetch(`${process.env.apiUrl}/organisme/${organisme._id}`, {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" },
 		})
@@ -57,10 +58,7 @@ export default class Organismes extends Component {
 
 // only in page dir
 export async function getServerSideProps(context) {
-	const organismes = await fetch(
-		//await fetch(`${process.env.apiUrl}/organisme`)
-		`http://localhost:3000/organisme`
-	)
+	const organismes = await fetch(`${process.env.apiUrl}/organisme`)
 		.then((response) => response.json())
 		.then((res) => {
 			if (res.code === 200) return res.data

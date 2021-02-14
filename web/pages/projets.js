@@ -9,19 +9,20 @@ export default class Projets extends Component {
 
 	submit = (projet) => {
 		console.log("je qui dans fetch")
-		return fetch(`http://localhost:3000/projet/${projet._id ?? ""}`, {
+		return fetch(`${process.env.apiUrl}/projet/${projet._id ?? ""}`, {
 			method: projet._id ? "PUT" : "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(projet),
 		})
 			.then((response) => response.json())
 			.then((e) => {
-				!projet._id && this.setState({ projets: [...this.state.projets, e.data] })
+				!projet._id &&
+					this.setState({ projets: [...this.state.projets, e.data] })
 				console.log("update", e)
 			})
 	}
 	delete = (projet) => {
-		return fetch(`http://localhost:3000/projet/${projet._id}`, {
+		return fetch(`${process.env.apiUrl}/projet/${projet._id}`, {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" },
 		})
@@ -58,10 +59,7 @@ export default class Projets extends Component {
 
 // only in page dir
 export async function getServerSideProps(context) {
-	const projets = await fetch(
-		//await fetch(`${process.env.apiUrl}/phase`)
-		`http://localhost:3000/projet`
-	)
+	const projets = await fetch(`${process.env.apiUrl}/projet`)
 		.then((response) => response.json())
 		.then((res) => {
 			if (res.code === 200) return res.data
