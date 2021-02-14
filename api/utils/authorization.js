@@ -21,7 +21,6 @@ function hasrole(role, roles) {
 exports.hasrole = hasrole
 exports.authorization = async (req, res, next, roles = 0) => {
 	const token = req?.query?.token
-
 	if (!token) formatRes(res, null, 401, "utilisateur non authentifié")
 	else {
 		getUser(token).then(
