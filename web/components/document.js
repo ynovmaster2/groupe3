@@ -2,28 +2,15 @@ import Form from "@rjsf/core"
 import React, { Component } from "react"
 
 const schema = {
-	title: "User",
+	title: "Document",
 	type: "object",
-	required: ["username", "email", "role"],
+	required: ["nom", "path"],
 	properties: {
-		username: { type: "string", title: "username" },
-		email: { type: "string", title: "email" },
-		tel: { type: "string", title: "tel" },
-		role: {
-			type: "string",
-			enum: [
-				"user",
-				"admin",
-				"directeur",
-				"chef",
-				"comptable",
-				"secretaire",
-				"collaborateur",
-			],
-		},
+		nom: { type: "string", title: "nom" },
+		path: { type: "string", title: "path" },
 	},
 }
-export default class User extends Component {
+export default class Document extends Component {
 	state = { edit: false, data: {} }
 	componentDidMount() {
 		this.props.data && this.setState({ data: this.props.data })
@@ -50,10 +37,8 @@ export default class User extends Component {
 		) : (
 			<div>
 				<div>
-					<h2>{this.state.data?.username}</h2>
-					<a>{this.state.data?.role}</a>
-					<a>{this.state.data?.tel}</a>
-					<a>{this.state.data?.email}</a>
+					<h2>{this.state.data?.nom}</h2>
+					<a>{this.state.data?.path}</a>
 				</div>
 				<div>
 					{!this.props.ro && (
