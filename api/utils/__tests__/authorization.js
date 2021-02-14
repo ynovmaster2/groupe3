@@ -1,4 +1,5 @@
-const { authorization } = require("../authorization")
+/* eslint-disable no-bitwise */
+const { authorization, role } = require("../authorization")
 // mock require
 const { formatRes } = require("../api")
 const { getUser } = require("../../services/oauth2")
@@ -10,7 +11,7 @@ jest.mock("../../services/oauth2", () => ({
 			new Promise((resolve, reject) =>
 				token === "error"
 					? reject("error")
-					: resolve(token === "nullusr" ? null : { role: "test" })
+					: resolve(token === "nullusr" ? null : { role: "user" })
 			)
 	),
 }))
@@ -26,7 +27,7 @@ describe("authorization", () => {
 	})
 	test("should 401 if token is not set", async () => {
 		const next = jest.fn()
-		await authorization({ query: {} }, "res", next, "role")
+		await authorization({ query: {} }, "res", next, role.user)
 
 		expect(formatRes).toHaveBeenCalledWith(
 			"res",
@@ -37,13 +38,13 @@ describe("authorization", () => {
 	})
 	test("should 500 if getUser is error", async () => {
 		const next = jest.fn()
-		await authorization({ query: { token: "error" } }, "res", next, "role")
+		await authorization({ query: { token: "error" } }, "res", next, role.user)
 		expect(getUser).toHaveBeenCalledWith("error")
 		expect(formatRes).toHaveBeenCalledWith("res", null, 500, "error")
 	})
 	test("should 401 if getUser -> null", async () => {
 		const next = jest.fn()
-		await authorization({ query: { token: "nullusr" } }, "res", next, "role")
+		await authorization({ query: { token: "nullusr" } }, "res", next, role.user)
 		expect(getUser).toHaveBeenCalledWith("nullusr")
 		expect(formatRes).toHaveBeenCalledWith(
 			"res",
@@ -52,31 +53,39 @@ describe("authorization", () => {
 			"utilisateur non authentifié"
 		)
 	})
-	test("should 403 if getUser.role != role", async () => {
+	test("should 403 if getUser.role not in roles", async () => {
 		const next = jest.fn()
 		await authorization(
 			{ query: { token: "valid token" } },
 			"res",
 			next,
-			"role"
+			role.admin
 		)
 		expect(getUser).toHaveBeenCalledWith("valid token")
 		expect(formatRes).toHaveBeenCalledWith("res", null, 403, "accès refusé")
 	})
-	test("should 403 if getUser && role = null", async () => {
+	test("should next if getUser && role = null", async () => {
 		const next = jest.fn()
 		const req = { query: { token: "valid token" } } // set res.user
 		await authorization(req, "res", next)
 		expect(getUser).toHaveBeenCalledWith("valid token")
 		expect(next).toHaveBeenCalled()
-		expect(req.user).toMatchObject({ role: "test" })
+		expect(req.user).toMatchObject({ role: "user" })
 	})
-	test("should next if getUser.role == role", async () => {
+	test("should next if getUser.role in role", async () => {
 		const next = jest.fn()
 		const req = { query: { token: "valid token" } } // set res.user
-		await authorization(req, "res", next, "test")
+		await authorization(req, "res", next, role.user)
 		expect(getUser).toHaveBeenCalledWith("valid token")
 		expect(next).toHaveBeenCalled()
-		expect(req.user).toMatchObject({ role: "test" })
+		expect(req.user).toMatchObject({ role: "user" })
+	})
+	test("should next if getUser.role in role[]", async () => {
+		const next = jest.fn()
+		const req = { query: { token: "valid token" } } // set res.user
+		await authorization(req, "res", next, role.admin | role.user)
+		expect(getUser).toHaveBeenCalledWith("valid token")
+		expect(next).toHaveBeenCalled()
+		expect(req.user).toMatchObject({ role: "user" })
 	})
 })

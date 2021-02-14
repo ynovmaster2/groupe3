@@ -1,10 +1,20 @@
+/* eslint-disable no-bitwise */
 const { formatRes } = require("./api")
 const { getUser } = require("../services/oauth2")
 
 // 401 : utilisateur non authentifié ;
 // 403 : accès refusé ;
+const enumrole = {
+	user: 1 << 1,
+	admin: 1 << 2,
+	directeur: 1 << 3,
+	chef: 1 << 4,
+	comptable: 1 << 5,
+	secretaire: 1 << 6,
+	collaborateur: 1 << 7,
+}
 
-exports.authorization = async (req, res, next, role = null) => {
+exports.authorization = async (req, res, next, roles = 0) => {
 	const token = req?.query?.token
 
 	if (!token) formatRes(res, null, 401, "utilisateur non authentifié")
@@ -12,7 +22,9 @@ exports.authorization = async (req, res, next, role = null) => {
 		getUser(token).then(
 			(u) => {
 				if (!u) formatRes(res, null, 401, "utilisateur non authentifié")
-				else if (role && u.role !== role)
+				// else if (roles !== 0 && u.role !== roles)
+				else if (roles !== 0 && !((enumrole[u.role] & roles) !== 0))
+					// user rolle in roles
 					formatRes(res, null, 403, "accès refusé")
 				else {
 					req.user = u
@@ -23,3 +35,5 @@ exports.authorization = async (req, res, next, role = null) => {
 		)
 	}
 }
+
+exports.role = enumrole
