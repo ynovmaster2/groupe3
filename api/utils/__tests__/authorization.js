@@ -1,5 +1,5 @@
 /* eslint-disable no-bitwise */
-const { authorization, role } = require("../authorization")
+const { hasrole, authorization, role } = require("../authorization")
 // mock require
 const { formatRes } = require("../api")
 const { getUser } = require("../../services/oauth2")
@@ -10,17 +10,25 @@ jest.mock("../../services/oauth2", () => ({
 		(token) =>
 			new Promise((resolve, reject) =>
 				token === "error"
-					? reject("error")
+					? // eslint-disable-next-line prefer-promise-reject-errors
+					  reject("error")
 					: resolve(token === "nullusr" ? null : { role: "user" })
 			)
 	),
 }))
-//
-/// /Promise.resolve({ role: "test" })
+
+test("hasrole", () => {
+	expect(hasrole("user", role.user)).toBeTruthy()
+	expect(hasrole("admin", role.admin)).toBeTruthy()
+	//
+	expect(hasrole("user", role.admin | role.user)).toBeTruthy()
+	//
+	expect(hasrole("admin", role.user)).toBeFalsy()
+	expect(hasrole("user", role.admin)).toBeFalsy()
+})
 
 // authorization("req", "res", "next", "role")
 // formatRes(res, null, 401, "utilisateur non authentifié")
-
 describe("authorization", () => {
 	beforeEach(() => {
 		jest.clearAllMocks()
