@@ -1,9 +1,13 @@
 const express = require("express")
-const { create } = require("../controller/user.controller")
-const { findAll } = require("../controller/user.controller")
-const { findOne } = require("../controller/user.controller")
-const { update } = require("../controller/user.controller")
-const { deleteUser } = require("../controller/user.controller")
+const {
+	// create,
+	findAll,
+	findOne,
+	update,
+	deleteUser,
+} = require("../controller/user.controller")
+
+const { authorization, role } = require("../utils/authorization")
 
 const router = express.Router()
 
@@ -16,10 +20,22 @@ router.get("", findAll)
 
 router.get("/:id", findOne)
 
-router.post("", create)
+// router.post(
+// 	"",
+// 	(req, res, next) => authorization(req, res, next, role.admin),
+// 	create
+// )
 
-router.put("/:id", update)
+router.put(
+	"/:id",
+	(req, res, next) => authorization(req, res, next, role.admin),
+	update
+)
 
-router.delete("/:id", deleteUser)
+router.delete(
+	"/:id",
+	(req, res, next) => authorization(req, res, next, role.admin),
+	deleteUser
+)
 
 module.exports = router
