@@ -1,12 +1,11 @@
 const Document = require("../models/document").model
 const { formatRes } = require("../utils/api")
 
-exports.create = (req, res) => {
+exports.create = (req, res) =>
 	new Document(req.body).save().then(
 		(data) => formatRes(res, data),
 		(err) => formatRes(res, null, 500, err)
 	)
-}
 
 exports.findAll = (req, res) =>
 	Document.find().then(
