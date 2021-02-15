@@ -1,21 +1,10 @@
-import Form from "@rjsf/core"
+import Form from "@rjsf/bootstrap-4"
 import React, { Component } from "react"
-
-function ArrayFieldTemplate(props) {
-	return (
-	  <div>
-		  <hr/>
-		{props.title}
-		{props.items.map(element => element.children)}
-		{props.canAdd && <button type="button" onClick={props.onAddClick}>+</button>}
-	  </div>
-	);
-  }
-
+/*
 const schema = {
 	title: "Phase",
 	type: "object",
-	required: ["documentation","livrable","employes"],
+	required: ["documentation", "livrable", "employes"],
 	properties: {
 		code: { type: "string", title: "code" },
 		libelle: { type: "string", title: "libelle" },
@@ -26,43 +15,88 @@ const schema = {
 		facturation: { type: "boolean", title: "facturations" },
 		documentation: {
 			type: "array",
-			title : "documentation",
+			title: "documentation",
 			items: {
 				type: "string",
-				enum: [
-					"60298185f6ffbd02ef7f283b",
-				],
-			  },
+				enum: ["60298185f6ffbd02ef7f283b"],
+			},
 		},
 		livrable: {
 			type: "array",
-			title : "livrable",
+			title: "livrable",
 			items: {
 				type: "string",
-				enum: [
-					"60298185f6ffbd02ef7f283b",
-				],
-			  },
+				enum: ["60298185f6ffbd02ef7f283b"],
+			},
 		},
 		employes: {
 			type: "array",
-			title : "employes",
+			title: "employes",
 			items: {
 				type: "string",
-				enum: [
-					"60298185f6ffbd02ef7f283b",
-				],
-			  },
+				enum: ["60298185f6ffbd02ef7f283b"],
+			},
 		},
 	},
 }
-
+*/
 export default class Document extends Component {
-	state = { edit: false, data: {} }
+	state = {
+		edit: false,
+		data: {},
+		documentations: [], // ["60298185f6ffbd02ef7f283b"],
+		users: [], //["60298185f6ffbd02ef7f283b"],
+	}
 	componentDidMount() {
 		this.props.data && this.setState({ data: this.props.data })
-	}
 
+		this.props.documentations &&
+			this.setState({
+				documentations: this.props.documentations.map((e) => e._id),
+			})
+		this.props.users &&
+			this.setState({ users: this.props.users.map((e) => e._id) })
+	}
+	getSchema = () => {
+		return {
+			title: "Phase",
+			type: "object",
+			required: ["documentation", "livrable", "employes"],
+			properties: {
+				code: { type: "string", title: "code" },
+				libelle: { type: "string", title: "libelle" },
+				description: { type: "string", title: "description" },
+				PourcentageMontant: { type: "integer", title: "PourcentageMontant" },
+				Paiement: { type: "boolean", title: "Paiement" },
+				realisation: { type: "boolean", title: "realisation" },
+				facturation: { type: "boolean", title: "facturations" },
+				documentation: {
+					type: "array",
+					title: "documentation",
+					items: {
+						type: "string",
+						enum: this.state.documentations,
+					},
+				},
+				livrable: {
+					type: "array",
+					title: "livrable",
+					items: {
+						type: "string",
+						enum: this.state.documentations,
+					},
+				},
+				employes: {
+					type: "array",
+					title: "employes",
+					items: {
+						type: "string",
+						enum: this.state.users,
+					},
+				},
+			},
+		}
+	}
 	submit = (val) => {
 		this.setState({
 			data: this.props.autoclear ? {} : val.formData,
@@ -76,11 +110,10 @@ export default class Document extends Component {
 	render() {
 		return this.state.edit ? (
 			<Form
-				schema={schema}
+				schema={this.getSchema()}
 				formData={this.state.data}
 				onSubmit={this.submit}
 				onError={console.error}
-				ArrayFieldTemplate={ArrayFieldTemplate}
 			/>
 		) : (
 			<div>
@@ -91,6 +124,42 @@ export default class Document extends Component {
 					<a>{this.state.data?.PourcentageMontant}</a>
 					<a>{this.state.data?.Paiement}</a>
 					<a>{this.state.data?.realisation}</a>
+					{this.state.data?.documentation && (
+						<div>
+							<a>documentation</a>
+							<React.Fragment>
+								<ul>
+									{this.state.data.documentation.map((e, i) => (
+										<li> {e} </li>
+									))}
+								</ul>
+							</React.Fragment>
+						</div>
+					)}
+					{this.state.data?.livrable && (
+						<div>
+							<a>livrable</a>
+							<React.Fragment>
+								<ul>
+									{this.state.data.livrable.map((e, i) => (
+										<li> {e} </li>
+									))}
+								</ul>
+							</React.Fragment>
+						</div>
+					)}
+					{this.state.data?.employes && (
+						<div>
+							<a>employes</a>
+							<React.Fragment>
+								<ul>
+									{this.state.data.employes.map((e, i) => (
+										<li> {e} </li>
+									))}
+								</ul>
+							</React.Fragment>
+						</div>
+					)}
 				</div>
 				<div>
 					{!this.props.ro && (

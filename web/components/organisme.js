@@ -1,4 +1,4 @@
-import Form from "@rjsf/core"
+import Form from "@rjsf/bootstrap-4"
 import React, { Component } from "react"
 
 const schema = {

@@ -46,11 +46,18 @@ export default class Phases extends Component {
 								submit={this.submit}
 								data={e}
 								delete={this.delete}
+								users={this.props.users}
+								documentations={this.props.documentations}
 							/>
 						))}
 					</ul>
 				</React.Fragment>
-				<Phase submit={this.submit} autoclear />
+				<Phase
+					submit={this.submit}
+					autoclear
+					users={this.props.users}
+					documentations={this.props.documentations}
+				/>
 			</>
 		)
 	}
@@ -65,7 +72,22 @@ export async function getServerSideProps(context) {
 			else console.error("get phase res:", res) // server log
 			return []
 		})
+	const users = await fetch(`${process.env.apiUrl}/user`)
+		.then((response) => response.json())
+		.then((res) => {
+			if (res.code === 200) return res.data
+			else console.error("get users res:", res) // server log
+			return []
+		})
+
+	const documentations = await fetch(`${process.env.apiUrl}/document`)
+		.then((response) => response.json())
+		.then((res) => {
+			if (res.code === 200) return res.data
+			else console.error("get document res:", res) // server log
+			return []
+		})
 	return {
-		props: { phases: phases }, // will be passed to the page component as props
+		props: { phases, users, documentations }, // will be passed to the page component as props
 	}
 }
