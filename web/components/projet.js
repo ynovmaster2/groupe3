@@ -3,19 +3,23 @@ import React, { Component } from "react"
 
 function ArrayFieldTemplate(props) {
 	return (
-	  <div>
-		  <hr/>
-		{props.title}
-		{props.items.map(element => element.children)}
-		{props.canAdd && <button type="button" onClick={props.onAddClick}>+</button>}
-	  </div>
-	);
-  }
+		<div>
+			<hr />
+			{props.title}
+			{props.items.map((element) => element.children)}
+			{props.canAdd && (
+				<button type="button" onClick={props.onAddClick}>
+					+
+				</button>
+			)}
+		</div>
+	)
+}
 
 const schema = {
 	title: "Projet",
 	type: "object",
-	required: ["nom", "chef","organisme"],
+	required: ["nom", "chef", "organisme"],
 	properties: {
 		nom: { type: "string", title: "nom" },
 		code: { type: "string", title: "code" },
@@ -23,48 +27,38 @@ const schema = {
 		montant: { type: "integer", title: "montant" },
 		chef: {
 			type: "string",
-			enum: [
-				"60298185f6ffbd02ef7f283e",
-			],
+			enum: ["60298185f6ffbd02ef7f283e"],
 		},
 		equipe: {
 			type: "array",
-			title : "equipe",
+			title: "equipe",
 			items: {
 				type: "string",
-				enum: [
-					"60298185f6ffbd02ef7f283b",
-				],
-			  },
+				enum: ["60298185f6ffbd02ef7f283b"],
+			},
 		},
 		documentation: {
 			type: "array",
-			title : "documentation",
+			title: "documentation",
 			items: {
 				type: "string",
-	
-				enum: [
-					"60298185f6ffbd02ef7f283b",
-				],
-			  },
+
+				enum: ["60298185f6ffbd02ef7f283b"],
+			},
 		},
 		organisme: {
 			type: "string",
-			title : "organisme",
-			enum: [
-				"60298185f6ffbd02ef7f283b",
-			],
+			title: "organisme",
+			enum: ["60298185f6ffbd02ef7f283b"],
 		},
 		phase: {
 			type: "array",
-			title : "phase",
+			title: "phase",
 			items: {
 				type: "string",
-				enum: [
-					"60298185f6ffbd02ef7f283b",
-				],
-			  },
-		}
+				enum: ["60298185f6ffbd02ef7f283b"],
+			},
+		},
 	},
 }
 export default class Document extends Component {
@@ -96,14 +90,55 @@ export default class Document extends Component {
 			<div>
 				<div>
 					<h2>{this.state.data?.nom}</h2>
-					<a>{this.state.data?.code}</a>
-					<a>{this.state.data?.description}</a>
-					<a>{this.state.data?.montant}</a>
-					<a>{this.state.data?.chef}</a>
-					<a>{this.state.data?.equipe}</a>
-					<a>{this.state.data?.documentation}</a>
-					<a>{this.state.data?.organisme}</a>
-					<a>{this.state.data?.phase}</a>
+					{this.state.data?.code && <a>code: {this.state.data?.code}</a>}
+					<p>{this.state.data?.description}</p>
+					{this.state.data?.montant && (
+						<a>montant: {this.state.data?.montant}</a>
+					)}
+					{this.state.data?.chef && (
+						<div>
+							<a>chef: {this.state.data?.chef}</a>
+						</div>
+					)}
+					{this.state.data?.equipe && (
+						<div>
+							<a>equipe</a>
+							<React.Fragment>
+								<ul>
+									{this.state.data.equipe.map((e, i) => (
+										<li> {e} </li>
+									))}
+								</ul>
+							</React.Fragment>
+						</div>
+					)}
+					{this.state.data?.documentation && (
+						<div>
+							<a>documentation</a>
+							<React.Fragment>
+								<ul>
+									{this.state.data.documentation.map((e, i) => (
+										<li> {e} </li>
+									))}
+								</ul>
+							</React.Fragment>
+						</div>
+					)}
+					{this.state.data?.organisme && (
+						<a>organisme: {this.state.data?.organisme}</a>
+					)}
+					{this.state.data?.phase && (
+						<div>
+							<a>phase</a>
+							<React.Fragment>
+								<ul>
+									{this.state.data.phase.map((e, i) => (
+										<li> {e} </li>
+									))}
+								</ul>
+							</React.Fragment>
+						</div>
+					)}
 				</div>
 				<div>
 					{!this.props.ro && (

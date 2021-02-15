@@ -3,19 +3,23 @@ import React, { Component } from "react"
 
 function ArrayFieldTemplate(props) {
 	return (
-	  <div>
-		  <hr/>
-		{props.title}
-		{props.items.map(element => element.children)}
-		{props.canAdd && <button type="button" onClick={props.onAddClick}>+</button>}
-	  </div>
-	);
-  }
+		<div>
+			<hr />
+			{props.title}
+			{props.items.map((element) => element.children)}
+			{props.canAdd && (
+				<button type="button" onClick={props.onAddClick}>
+					+
+				</button>
+			)}
+		</div>
+	)
+}
 
 const schema = {
 	title: "Phase",
 	type: "object",
-	required: ["documentation","livrable","employes"],
+	required: ["documentation", "livrable", "employes"],
 	properties: {
 		code: { type: "string", title: "code" },
 		libelle: { type: "string", title: "libelle" },
@@ -26,33 +30,27 @@ const schema = {
 		facturation: { type: "boolean", title: "facturations" },
 		documentation: {
 			type: "array",
-			title : "documentation",
+			title: "documentation",
 			items: {
 				type: "string",
-				enum: [
-					"60298185f6ffbd02ef7f283b",
-				],
-			  },
+				enum: ["60298185f6ffbd02ef7f283b"],
+			},
 		},
 		livrable: {
 			type: "array",
-			title : "livrable",
+			title: "livrable",
 			items: {
 				type: "string",
-				enum: [
-					"60298185f6ffbd02ef7f283b",
-				],
-			  },
+				enum: ["60298185f6ffbd02ef7f283b"],
+			},
 		},
 		employes: {
 			type: "array",
-			title : "employes",
+			title: "employes",
 			items: {
 				type: "string",
-				enum: [
-					"60298185f6ffbd02ef7f283b",
-				],
-			  },
+				enum: ["60298185f6ffbd02ef7f283b"],
+			},
 		},
 	},
 }
@@ -91,6 +89,42 @@ export default class Document extends Component {
 					<a>{this.state.data?.PourcentageMontant}</a>
 					<a>{this.state.data?.Paiement}</a>
 					<a>{this.state.data?.realisation}</a>
+					{this.state.data?.documentation && (
+						<div>
+							<a>documentation</a>
+							<React.Fragment>
+								<ul>
+									{this.state.data.documentation.map((e, i) => (
+										<li> {e} </li>
+									))}
+								</ul>
+							</React.Fragment>
+						</div>
+					)}
+					{this.state.data?.livrable && (
+						<div>
+							<a>livrable</a>
+							<React.Fragment>
+								<ul>
+									{this.state.data.livrable.map((e, i) => (
+										<li> {e} </li>
+									))}
+								</ul>
+							</React.Fragment>
+						</div>
+					)}
+					{this.state.data?.employes && (
+						<div>
+							<a>employes</a>
+							<React.Fragment>
+								<ul>
+									{this.state.data.employes.map((e, i) => (
+										<li> {e} </li>
+									))}
+								</ul>
+							</React.Fragment>
+						</div>
+					)}
 				</div>
 				<div>
 					{!this.props.ro && (
