@@ -2,8 +2,8 @@ const mongoose = require("mongoose")
 
 const UserSchema = mongoose.Schema(
 	{
-		username: { type: String, required: true },
-		email: { type: String, required: true },
+		username: { type: String, required: true, unique: true },
+		email: { type: String, required: true, unique: true },
 		role: {
 			type: String,
 			enum: [
@@ -17,6 +17,10 @@ const UserSchema = mongoose.Schema(
 			],
 			default: "user",
 			required: true,
+		},
+		oauth: {
+			type: Map,
+			of: { _id: false, id: String }, // oauth.github -> github user
 		},
 		tel: String,
 	},
