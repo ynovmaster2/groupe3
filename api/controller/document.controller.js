@@ -1,21 +1,19 @@
 const Document = require("../models/document").model
 const { formatRes } = require("../utils/api")
 
-exports.create = (req, res) => {
+exports.create = (req, res) =>
 	new Document(req.body).save().then(
 		(data) => formatRes(res, data),
 		(err) => formatRes(res, null, 500, err)
 	)
-}
 
-exports.findAll = (req, res) => {
+exports.findAll = (req, res) =>
 	Document.find().then(
 		(data) => formatRes(res, data),
 		(err) => formatRes(res, null, 500, err)
 	)
-}
 
-exports.findOne = (req, res) => {
+exports.findOne = (req, res) =>
 	Document.findById(req.params.id).then(
 		(data) => {
 			if (!data)
@@ -29,9 +27,8 @@ exports.findOne = (req, res) => {
 		},
 		(err) => formatRes(res, null, 500, err)
 	)
-}
 
-exports.update = (req, res) => {
+exports.update = (req, res) =>
 	Document.findByIdAndUpdate(req.params.id, req.body, { new: true }).then(
 		(data) => {
 			if (!data)
@@ -45,9 +42,8 @@ exports.update = (req, res) => {
 		},
 		(err) => formatRes(res, null, 500, err)
 	)
-}
 
-exports.deleteDocument = (req, res) => {
+exports.deleteDocument = (req, res) =>
 	Document.findByIdAndRemove(req.params.id).then(
 		(data) => {
 			if (!data)
@@ -61,4 +57,3 @@ exports.deleteDocument = (req, res) => {
 		},
 		(err) => formatRes(res, null, 500, err)
 	)
-}
