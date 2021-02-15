@@ -1,21 +1,39 @@
 const express = require("express")
-const { create } = require("../controller/organisme.controller")
-const { findAll } = require("../controller/organisme.controller")
-const { findOne } = require("../controller/organisme.controller")
-const { update } = require("../controller/organisme.controller")
-const { deleteOragnismefix } = require("../controller/organisme.controller")
+const {
+	create,
+	findAll,
+	findOne,
+	update,
+	// deleteOragnisme,
+} = require("../controller/organisme.controller")
+
+const { authorization, role } = require("../utils/authorization")
+
+// eslint-disable-next-line no-bitwise
+const roleSecretaireOrDirecteur = role.secretaire | role.directeur
 
 const router = express.Router()
 
-router.get("/:id", findOne)
+router.get("/:id", (req, res, next) => authorization(req, res, next), findOne)
 
-router.get("", findAll)
+router.get("", (req, res, next) => authorization(req, res, next), findAll)
 
-router.post("", create)
+router.post(
+	"",
+	(req, res, next) => authorization(req, res, next, roleSecretaireOrDirecteur),
+	create
+)
 
-router.put("/:id", update)
+router.put(
+	"/:id",
+	(req, res, next) => authorization(req, res, next, roleSecretaireOrDirecteur),
+	update
+)
 
-// function name deleteOragnisme make error
-router.delete("/:id", deleteOragnismefix)
+// router.delete(
+// 	"/:id",
+// 	(req, res, next) => authorization(req, res, next, role.directeur),
+// 	deleteOragnisme
+// )
 
 module.exports = router
