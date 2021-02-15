@@ -1,20 +1,5 @@
-import Form from "@rjsf/core"
+import Form from "@rjsf/bootstrap-4"
 import React, { Component } from "react"
-
-function ArrayFieldTemplate(props) {
-	return (
-		<div>
-			<hr />
-			{props.title}
-			{props.items.map((element) => element.children)}
-			{props.canAdd && (
-				<button type="button" onClick={props.onAddClick}>
-					+
-				</button>
-			)}
-		</div>
-	)
-}
 
 const schema = {
 	title: "Projet",
@@ -84,7 +69,7 @@ export default class Document extends Component {
 				formData={this.state.data}
 				onSubmit={this.submit}
 				onError={console.error}
-				ArrayFieldTemplate={ArrayFieldTemplate}
+				// ArrayFieldTemplate={ArrayFieldTemplate}
 			/>
 		) : (
 			<div>
