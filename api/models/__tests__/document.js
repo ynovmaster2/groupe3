@@ -8,7 +8,7 @@ describe("Model document", () => {
 		await mongoose.connect(
 			// eslint-disable-next-line no-underscore-dangle
 			global.__MONGO_URI__,
-			{ useNewUrlParser: true, useCreateIndex: true },
+			{ useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true },
 			(err) => {
 				if (err) {
 					console.error(err)
@@ -17,6 +17,7 @@ describe("Model document", () => {
 			}
 		)
 	})
+	afterAll(async () => mongoose.connection.close())
 
 	it("create & save Document successfully", async () => {
 		const data = {

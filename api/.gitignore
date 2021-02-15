@@ -1,3 +1,6 @@
+# jest mongodb-memory-server
+globalConfig.json
+
 # Logs
 logs
 *.log

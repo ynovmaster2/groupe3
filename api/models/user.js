@@ -18,6 +18,10 @@ const UserSchema = mongoose.Schema(
 			default: "user",
 			required: true,
 		},
+		oauth: {
+			type: Map,
+			of: { _id: false, id: String }, // oauth.github -> github user
+		},
 		tel: String,
 	},
 	{
