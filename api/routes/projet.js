@@ -4,44 +4,32 @@ const {
 	findAll,
 	findOne,
 	update,
-	// deleteProjet,
+	deleteProjet,
 } = require("../controller/projet.controller")
 
 const { authorization, role } = require("../utils/authorization")
 
 // eslint-disable-next-line no-bitwise
-const roles = role.directeur | role.chef /* self */ | role.secretaire
+const roleSecretaireOrDirecteur = role.secretaire | role.directeur
 
 const router = express.Router()
 
-router.get(
-	"",
-	(req, res, next) => authorization(req, res, next, roles),
-	findAll
-)
+router.get("", (req, res, next) => authorization(req, res, next), findAll)
 
-router.get(
-	"/:id",
-	(req, res, next) => authorization(req, res, next, roles),
-	findOne
-)
+router.get("/:id", (req, res, next) => authorization(req, res, next), findOne)
 
 router.post(
 	"",
-	(req, res, next) => authorization(req, res, next, roles),
+	(req, res, next) => authorization(req, res, next, roleSecretaireOrDirecteur),
 	create
 )
 
-router.put(
-	"/:id",
-	(req, res, next) => authorization(req, res, next, roles),
-	update
-)
+router.put("/:id", (req, res, next) => authorization(req, res, next), update)
 
-// router.delete(
-// 	"/:id",
-// 	(req, res, next) => authorization(req, res, next, role.directeur),
-// 	deleteProjet
-// )
+router.delete(
+	"/:id",
+	(req, res, next) => authorization(req, res, next, role.directeur),
+	deleteProjet
+)
 
 module.exports = router

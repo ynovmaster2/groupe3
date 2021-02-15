@@ -7,40 +7,36 @@ const {
 	deletePhase,
 } = require("../controller/phase.controller")
 
-const { authorization, role } = require("../utils/authorization")
+const { authorization } = require("../utils/authorization")
 
 const router = express.Router()
 
 router.get(
 	"",
 	// eslint-disable-next-line no-bitwise
-	(req, res, next) => authorization(req, res, next, role.chef | role.comptable),
+	(req, res, next) => authorization(req, res, next),
 	findAll
 )
 
 router.get(
 	"/:id",
 	// eslint-disable-next-line no-bitwise
-	(req, res, next) => authorization(req, res, next, role.chef | role.comptable),
+	(req, res, next) => authorization(req, res, next),
 	findOne
 )
 
-router.post(
-	"",
-	(req, res, next) => authorization(req, res, next, role.chef),
-	create
-)
+router.post("", (req, res, next) => authorization(req, res, next), create)
 
 router.put(
 	"/:id",
 	// eslint-disable-next-line no-bitwise
-	(req, res, next) => authorization(req, res, next, role.chef | role.comptable), // comptable(facturation)
+	(req, res, next) => authorization(req, res, next), // comptable(facturation)
 	update
 )
 
 router.delete(
 	"/:id",
-	(req, res, next) => authorization(req, res, next, role.chef),
+	(req, res, next) => authorization(req, res, next),
 	deletePhase
 )
 
