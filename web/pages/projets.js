@@ -47,11 +47,22 @@ export default class Projets extends Component {
 								submit={this.submit}
 								data={e}
 								delete={this.delete}
+								users={this.props.users}
+								documentations={this.props.documentations}
+								organismes={this.props.organismes}
+								phases={this.props.phases}
 							/>
 						))}
 					</ul>
 				</React.Fragment>
-				<Projet submit={this.submit} autoclear />
+				<Projet
+					submit={this.submit}
+					autoclear
+					users={this.props.users}
+					documentations={this.props.documentations}
+					organismes={this.props.organismes}
+					phases={this.props.phases}
+				/>
 			</>
 		)
 	}
@@ -66,7 +77,37 @@ export async function getServerSideProps(context) {
 			else console.error("get projet res:", res) // server log
 			return []
 		})
+	const users = await fetch(`${process.env.apiUrl}/user`)
+		.then((response) => response.json())
+		.then((res) => {
+			if (res.code === 200) return res.data
+			else console.error("get users res:", res) // server log
+			return []
+		})
+
+	const documentations = await fetch(`${process.env.apiUrl}/document`)
+		.then((response) => response.json())
+		.then((res) => {
+			if (res.code === 200) return res.data
+			else console.error("get document res:", res) // server log
+			return []
+		})
+	const organismes = await fetch(`${process.env.apiUrl}/organisme`)
+		.then((response) => response.json())
+		.then((res) => {
+			if (res.code === 200) return res.data
+			else console.error("get document res:", res) // server log
+			return []
+		})
+
+	const phases = await fetch(`${process.env.apiUrl}/phase`)
+		.then((response) => response.json())
+		.then((res) => {
+			if (res.code === 200) return res.data
+			else console.error("get document res:", res) // server log
+			return []
+		})
 	return {
-		props: { projets: projets }, // will be passed to the page component as props
+		props: { projets, users, documentations, organismes, phases }, // will be passed to the page component as props
 	}
 }

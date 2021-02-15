@@ -1,6 +1,6 @@
 import Form from "@rjsf/bootstrap-4"
 import React, { Component } from "react"
-
+/*
 const schema = {
 	title: "Phase",
 	type: "object",
@@ -39,13 +39,64 @@ const schema = {
 		},
 	},
 }
-
+*/
 export default class Document extends Component {
-	state = { edit: false, data: {} }
+	state = {
+		edit: false,
+		data: {},
+		documentations: [], // ["60298185f6ffbd02ef7f283b"],
+		users: [], //["60298185f6ffbd02ef7f283b"],
+	}
 	componentDidMount() {
 		this.props.data && this.setState({ data: this.props.data })
-	}
 
+		this.props.documentations &&
+			this.setState({
+				documentations: this.props.documentations.map((e) => e._id),
+			})
+		this.props.users &&
+			this.setState({ users: this.props.users.map((e) => e._id) })
+	}
+	getSchema = () => {
+		return {
+			title: "Phase",
+			type: "object",
+			required: ["documentation", "livrable", "employes"],
+			properties: {
+				code: { type: "string", title: "code" },
+				libelle: { type: "string", title: "libelle" },
+				description: { type: "string", title: "description" },
+				PourcentageMontant: { type: "integer", title: "PourcentageMontant" },
+				Paiement: { type: "boolean", title: "Paiement" },
+				realisation: { type: "boolean", title: "realisation" },
+				facturation: { type: "boolean", title: "facturations" },
+				documentation: {
+					type: "array",
+					title: "documentation",
+					items: {
+						type: "string",
+						enum: this.state.documentations,
+					},
+				},
+				livrable: {
+					type: "array",
+					title: "livrable",
+					items: {
+						type: "string",
+						enum: this.state.documentations,
+					},
+				},
+				employes: {
+					type: "array",
+					title: "employes",
+					items: {
+						type: "string",
+						enum: this.state.users,
+					},
+				},
+			},
+		}
+	}
 	submit = (val) => {
 		this.setState({
 			data: this.props.autoclear ? {} : val.formData,
@@ -59,7 +110,7 @@ export default class Document extends Component {
 	render() {
 		return this.state.edit ? (
 			<Form
-				schema={schema}
+				schema={this.getSchema()}
 				formData={this.state.data}
 				onSubmit={this.submit}
 				onError={console.error}

@@ -1,6 +1,6 @@
 import Form from "@rjsf/bootstrap-4"
 import React, { Component } from "react"
-
+/*
 const schema = {
 	title: "Projet",
 	type: "object",
@@ -46,12 +46,76 @@ const schema = {
 		},
 	},
 }
+*/
 export default class Document extends Component {
-	state = { edit: false, data: {} }
+	state = {
+		edit: false,
+		data: {},
+		users: [], //["60298185f6ffbd02ef7f283b"],
+		documentations: [], //["60298185f6ffbd02ef7f283b"],
+		organismes: [], //["60298185f6ffbd02ef7f283b"],
+		phases: [], //["60298185f6ffbd02ef7f283b"],
+	}
 	componentDidMount() {
 		this.props.data && this.setState({ data: this.props.data })
-	}
 
+		this.props.phase &&
+			this.setState({ phase: this.props.phase.map((e) => e._id) })
+		this.props.organisme &&
+			this.setState({ organisme: this.props.organisme.map((e) => e._id) })
+		this.props.documentation &&
+			this.setState({
+				documentation: this.props.documentation.map((e) => e._id),
+			})
+		this.props.users &&
+			this.setState({ users: this.props.users.map((e) => e._id) })
+	}
+	getSchema = () => {
+		return {
+			title: "Projet",
+			type: "object",
+			required: ["nom", "chef", "organisme"],
+			properties: {
+				nom: { type: "string", title: "nom" },
+				code: { type: "string", title: "code" },
+				description: { type: "string", title: "description" },
+				montant: { type: "integer", title: "montant" },
+				chef: {
+					type: "string",
+					enum: this.state.users,
+				},
+				equipe: {
+					type: "array",
+					title: "equipe",
+					items: {
+						type: "string",
+						enum: this.state.users,
+					},
+				},
+				documentation: {
+					type: "array",
+					title: "documentation",
+					items: {
+						type: "string",
+						enum: this.state.documentations,
+					},
+				},
+				organisme: {
+					type: "string",
+					title: "organisme",
+					enum: this.state.organismes,
+				},
+				phase: {
+					type: "array",
+					title: "phase",
+					items: {
+						type: "string",
+						enum: this.state.phases,
+					},
+				},
+			},
+		}
+	}
 	submit = (val) => {
 		this.setState({
 			data: this.props.autoclear ? {} : val.formData,
@@ -65,7 +129,7 @@ export default class Document extends Component {
 	render() {
 		return this.state.edit ? (
 			<Form
-				schema={schema}
+				schema={this.getSchema()}
 				formData={this.state.data}
 				onSubmit={this.submit}
 				onError={console.error}
