@@ -42,18 +42,18 @@ exports.update = (req, res) =>
 		},
 		(err) => formatRes(res, null, 500, err)
 	)
-// function name deleteOragnisme make error
-exports.deleteOragnismefix = (req, res) =>
-	Oragnisme.findByIdAndRemove(req.params.id).then(
-		(data) => {
-			if (!data)
-				return formatRes(
-					res,
-					null,
-					404,
-					`Oragnisme not found with id ${req.params.id}`
-				)
-			return formatRes(res, "Oragnisme deleted successfully!")
-		},
-		(err) => formatRes(res, null, 500, err)
-	)
+
+// exports.deleteOragnisme = (req, res) =>
+// 	Oragnisme.findByIdAndRemove(req.params.id).then(
+// 		(data) => {
+// 			if (!data)
+// 				return formatRes(
+// 					res,
+// 					null,
+// 					404,
+// 					`Oragnisme not found with id ${req.params.id}`
+// 				)
+// 			return formatRes(res, "Oragnisme deleted successfully!")
+// 		},
+// 		(err) => formatRes(res, null, 500, err)
+// 	)
