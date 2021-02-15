@@ -17,6 +17,7 @@ services:
       CONFIG_MONGODB_USERNAME: root
       CONFIG_MONGODB_PASSWORD: example
       CONFIG_AUTH_REDIRECT_URI: http:///localhost:3000/auth/github/user/ # test -> user
+      CONFIG_API_URL: http://localhost:3000
   mongo:
     image: mongo
     restart: always
