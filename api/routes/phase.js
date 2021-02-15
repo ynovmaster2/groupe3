@@ -11,28 +11,13 @@ const { authorization } = require("../utils/authorization")
 
 const router = express.Router()
 
-router.get(
-	"",
-	// eslint-disable-next-line no-bitwise
-	(req, res, next) => authorization(req, res, next),
-	findAll
-)
+router.get("", (req, res, next) => authorization(req, res, next), findAll)
 
-router.get(
-	"/:id",
-	// eslint-disable-next-line no-bitwise
-	(req, res, next) => authorization(req, res, next),
-	findOne
-)
+router.get("/:id", (req, res, next) => authorization(req, res, next), findOne)
 
 router.post("", (req, res, next) => authorization(req, res, next), create)
 
-router.put(
-	"/:id",
-	// eslint-disable-next-line no-bitwise
-	(req, res, next) => authorization(req, res, next), // comptable(facturation)
-	update
-)
+router.put("/:id", (req, res, next) => authorization(req, res, next), update)
 
 router.delete(
 	"/:id",
