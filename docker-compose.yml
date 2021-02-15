@@ -2,13 +2,12 @@
 version: "3.1"
 
 services:
-  code:
+  api:
     build:
-      context: .
-      dockerfile: .devcontainer/Dockerfile
-    volumes:
-      - .:/workspace:cached
-    command: /bin/sh -c "while sleep 1000; do :; done"
+      context: ./api
+      dockerfile: ./Dockerfile
+    ports:
+      - 3000:3000
     env_file:
     - .env
     environment:
@@ -19,7 +18,17 @@ services:
       CONFIG_OAUTH2_ACCESS_TOKEN_URI: https://github.com/login/oauth/access_token
       CONFIG_OAUTH2_AUTHORIZATION_URI: https://github.com/login/oauth/authorize
       CONFIG_AUTH_REDIRECT_URI: http:///localhost:3000/auth/github/user/ # test -> user
-      CONFIG_API_URL: http://localhost:3000
+  web:
+    build:
+      context: ./web
+      dockerfile: ./Dockerfile
+      args:
+      - CONFIG_API_URL=http://api:3000
+      - CONFIG_API_PUBLIC_URL=http://localhost:3000
+    ports:
+      - 8080:3000
+    environment:
+      CONFIG_API_URL: http://api:3000
       CONFIG_API_PUBLIC_URL: http://localhost:3000
   mongo:
     image: mongo

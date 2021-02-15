@@ -9,7 +9,7 @@ export default class Phases extends Component {
 
 	submit = (phase) => {
 		console.log("je qui dans fetch")
-		return fetch(`${process.env.apiUrl}/phase/${phase._id ?? ""}`, {
+		return fetch(`${process.env.apiPublicUrl}/phase/${phase._id ?? ""}`, {
 			method: phase._id ? "PUT" : "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(phase),
@@ -21,7 +21,7 @@ export default class Phases extends Component {
 			})
 	}
 	delete = (phase) => {
-		return fetch(`${process.env.apiUrl}/phase/${phase._id}`, {
+		return fetch(`${process.env.apiPublicUrl}/phase/${phase._id}`, {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" },
 		})

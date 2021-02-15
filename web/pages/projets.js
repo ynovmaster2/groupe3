@@ -9,7 +9,7 @@ export default class Projets extends Component {
 
 	submit = (projet) => {
 		console.log("je qui dans fetch")
-		return fetch(`${process.env.apiUrl}/projet/${projet._id ?? ""}`, {
+		return fetch(`${process.env.apiPublicUrl}/projet/${projet._id ?? ""}`, {
 			method: projet._id ? "PUT" : "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(projet),
@@ -22,7 +22,7 @@ export default class Projets extends Component {
 			})
 	}
 	delete = (projet) => {
-		return fetch(`${process.env.apiUrl}/projet/${projet._id}`, {
+		return fetch(`${process.env.apiPublicUrl}/projet/${projet._id}`, {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" },
 		})

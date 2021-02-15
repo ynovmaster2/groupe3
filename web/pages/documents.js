@@ -8,7 +8,7 @@ export default class Documents extends Component {
 	}
 
 	submit = (document) => {
-		return fetch(`${process.env.apiUrl}/document/${document._id ?? ""}`, {
+		return fetch(`${process.env.apiPublicUrl}/document/${document._id ?? ""}`, {
 			method: document._id ? "PUT" : "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(document),
@@ -21,7 +21,7 @@ export default class Documents extends Component {
 			})
 	}
 	delete = (document) => {
-		return fetch(`${process.env.apiUrl}/document/${document._id}`, {
+		return fetch(`${process.env.apiPublicUrl}/document/${document._id}`, {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" },
 		})

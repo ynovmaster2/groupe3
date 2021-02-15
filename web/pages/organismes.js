@@ -8,7 +8,7 @@ export default class Organismes extends Component {
 	}
 
 	submit = (organisme) => {
-		return fetch(`${process.env.apiUrl}/organisme/${organisme._id ?? ""}`, {
+		return fetch(`${process.env.apiPublicUrl}/organisme/${organisme._id ?? ""}`, {
 			method: organisme._id ? "PUT" : "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(organisme),
@@ -21,7 +21,7 @@ export default class Organismes extends Component {
 			})
 	}
 	delete = (organisme) => {
-		return fetch(`${process.env.apiUrl}/organisme/${organisme._id}`, {
+		return fetch(`${process.env.apiPublicUrl}/organisme/${organisme._id}`, {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" },
 		})
