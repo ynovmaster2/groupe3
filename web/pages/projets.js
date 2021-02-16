@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import Projet from "../components/projet"
+import Cookies from "cookies"
 
 export default class Projets extends Component {
 	state = { projets: [] }
@@ -9,7 +10,7 @@ export default class Projets extends Component {
 
 	submit = (projet) => {
 		console.log("je qui dans fetch")
-		return fetch(`${process.env.apiPublicUrl}/projet/${projet._id ?? ""}`, {
+		return fetch(`${process.env.apiPublicUrl}/projet/${projet._id ?? ""}?token=${this.props.token}`, {
 			method: projet._id ? "PUT" : "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(projet),
@@ -22,7 +23,7 @@ export default class Projets extends Component {
 			})
 	}
 	delete = (projet) => {
-		return fetch(`${process.env.apiPublicUrl}/projet/${projet._id}`, {
+		return fetch(`${process.env.apiPublicUrl}/projet/${projet._id}?token=${this.props.token}`, {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" },
 		})
@@ -70,14 +71,16 @@ export default class Projets extends Component {
 
 // only in page dir
 export async function getServerSideProps(context) {
-	const projets = await fetch(`${process.env.apiUrl}/projet`)
+	const cookies = new Cookies(context.req, context.res)
+	const token = context.query.token ?? cookies.get("token") ?? null // url token | cookie
+	const projets = await fetch(`${process.env.apiUrl}/projet?token=${token}`)
 		.then((response) => response.json())
 		.then((res) => {
 			if (res.code === 200) return res.data
 			else console.error("get projet res:", res) // server log
 			return []
 		})
-	const users = await fetch(`${process.env.apiUrl}/user`)
+	const users = await fetch(`${process.env.apiUrl}/user?token=${token}`)
 		.then((response) => response.json())
 		.then((res) => {
 			if (res.code === 200) return res.data
@@ -85,14 +88,14 @@ export async function getServerSideProps(context) {
 			return []
 		})
 
-	const documentations = await fetch(`${process.env.apiUrl}/document`)
+	const documentations = await fetch(`${process.env.apiUrl}/document?token=${token}`)
 		.then((response) => response.json())
 		.then((res) => {
 			if (res.code === 200) return res.data
 			else console.error("get document res:", res) // server log
 			return []
 		})
-	const organismes = await fetch(`${process.env.apiUrl}/organisme`)
+	const organismes = await fetch(`${process.env.apiUrl}/organisme?token=${token}`)
 		.then((response) => response.json())
 		.then((res) => {
 			if (res.code === 200) return res.data
@@ -100,7 +103,7 @@ export async function getServerSideProps(context) {
 			return []
 		})
 
-	const phases = await fetch(`${process.env.apiUrl}/phase`)
+	const phases = await fetch(`${process.env.apiUrl}/phase?token=${token}`)
 		.then((response) => response.json())
 		.then((res) => {
 			if (res.code === 200) return res.data
@@ -108,6 +111,6 @@ export async function getServerSideProps(context) {
 			return []
 		})
 	return {
-		props: { projets, users, documentations, organismes, phases }, // will be passed to the page component as props
+		props: { projets, users, documentations, organismes, phases, token }, // will be passed to the page component as props
 	}
 }

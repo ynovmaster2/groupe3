@@ -34,6 +34,11 @@ export default class Header extends Component {
 							<a className="nav-link">Documents</a>
 						</Link>
 					</li>
+					<li className="nav-item">
+						<Link href={`${process.env.apiPublicUrl}/auth`}>
+							<a className="nav-link">Login</a>
+						</Link>
+					</li>
 				</ul>
 			</nav>
 		)

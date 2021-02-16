@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import Phase from "../components/phase"
+import Cookies from "cookies"
 
 export default class Phases extends Component {
 	state = { phases: [] }
@@ -9,7 +10,7 @@ export default class Phases extends Component {
 
 	submit = (phase) => {
 		console.log("je qui dans fetch")
-		return fetch(`${process.env.apiPublicUrl}/phase/${phase._id ?? ""}`, {
+		return fetch(`${process.env.apiPublicUrl}/phase/${phase._id ?? ""}?token=${this.props.token}`, {
 			method: phase._id ? "PUT" : "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(phase),
@@ -21,7 +22,7 @@ export default class Phases extends Component {
 			})
 	}
 	delete = (phase) => {
-		return fetch(`${process.env.apiPublicUrl}/phase/${phase._id}`, {
+		return fetch(`${process.env.apiPublicUrl}/phase/${phase._id}?token=${this.props.token}`, {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" },
 		})
@@ -65,14 +66,16 @@ export default class Phases extends Component {
 
 // only in page dir
 export async function getServerSideProps(context) {
-	const phases = await fetch(`${process.env.apiUrl}/phase`)
+	const cookies = new Cookies(context.req, context.res)
+	const token = context.query.token ?? cookies.get("token") ?? null // url token | cookie
+	const phases = await fetch(`${process.env.apiUrl}/phase?token=${token}`)
 		.then((response) => response.json())
 		.then((res) => {
 			if (res.code === 200) return res.data
 			else console.error("get phase res:", res) // server log
 			return []
 		})
-	const users = await fetch(`${process.env.apiUrl}/user`)
+	const users = await fetch(`${process.env.apiUrl}/user?token=${token}`)
 		.then((response) => response.json())
 		.then((res) => {
 			if (res.code === 200) return res.data
@@ -80,7 +83,7 @@ export async function getServerSideProps(context) {
 			return []
 		})
 
-	const documentations = await fetch(`${process.env.apiUrl}/document`)
+	const documentations = await fetch(`${process.env.apiUrl}/document?token=${token}`)
 		.then((response) => response.json())
 		.then((res) => {
 			if (res.code === 200) return res.data
@@ -88,6 +91,6 @@ export async function getServerSideProps(context) {
 			return []
 		})
 	return {
-		props: { phases, users, documentations }, // will be passed to the page component as props
+		props: { phases, users, documentations , token }, // will be passed to the page component as props
 	}
 }
