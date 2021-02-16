@@ -17,7 +17,7 @@ services:
       CONFIG_MONGODB_PASSWORD: example
       CONFIG_OAUTH2_ACCESS_TOKEN_URI: https://github.com/login/oauth/access_token
       CONFIG_OAUTH2_AUTHORIZATION_URI: https://github.com/login/oauth/authorize
-      CONFIG_AUTH_REDIRECT_URI: http:///localhost:3000/auth/github/user/ # test -> user
+      CONFIG_AUTH_REDIRECT_URI: http:///localhost:8080/callback?token=
   web:
     build:
       context: ./web

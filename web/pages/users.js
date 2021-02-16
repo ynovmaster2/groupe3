@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import User from "../components/user"
+import Cookies from "cookies"
 
 export default class Users extends Component {
 	state = { users: [] }
@@ -8,7 +9,7 @@ export default class Users extends Component {
 	}
 
 	submit = (user) => {
-		return fetch(`${process.env.apiPublicUrl}/user/${user._id ?? ""}`, {
+		return fetch(`${process.env.apiPublicUrl}/user/${user._id ?? ""}?token=${this.props.token}`, {
 			method: user._id ? "PUT" : "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(user),
@@ -20,7 +21,7 @@ export default class Users extends Component {
 			})
 	}
 	delete = (user) => {
-		return fetch(`${process.env.apiPublicUrl}/user/${user._id}`, {
+		return fetch(`${process.env.apiPublicUrl}/user/${user._id}?token=${this.props.token}`, {
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" },
 		})
@@ -57,7 +58,9 @@ export default class Users extends Component {
 
 // only in page dir
 export async function getServerSideProps(context) {
-	const users = await fetch(`${process.env.apiUrl}/user`)
+	const cookies = new Cookies(context.req, context.res)
+	const token = context.query.token ?? cookies.get("token") ?? null // url token | cookie
+	const users = await fetch(`${process.env.apiUrl}/user?token=${token}`)
 		.then((response) => response.json())
 		.then((res) => {
 			if (res.code === 200) return res.data
@@ -65,6 +68,6 @@ export async function getServerSideProps(context) {
 			return []
 		})
 	return {
-		props: { users: users }, // will be passed to the page component as props
+		props: { users: users, token }, // will be passed to the page component as props
 	}
 }
