@@ -6,10 +6,6 @@ const {
 	update,
 	deleteDocument,
 } = require("../controller/document.controller")
-// const { findAll } = require("../controller/document.controller")
-// const { findOne } = require("../controller/document.controller")
-// const { update } = require("../controller/document.controller")
-// const { deleteDocument } = require("../controller/document.controller")
 
 const router = express.Router()
 

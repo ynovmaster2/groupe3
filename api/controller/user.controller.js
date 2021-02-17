@@ -1,21 +1,19 @@
 const User = require("../models/user").model
 const { formatRes } = require("../utils/api")
 
-exports.create = (req, res) => {
+exports.create = (req, res) =>
 	new User(req.body).save().then(
 		(data) => formatRes(res, data),
 		(err) => formatRes(res, null, 500, err)
 	)
-}
 
-exports.findAll = (req, res) => {
+exports.findAll = (req, res) =>
 	User.find().then(
 		(data) => formatRes(res, data),
 		(err) => formatRes(res, null, 500, err)
 	)
-}
 
-exports.findOne = (req, res) => {
+exports.findOne = (req, res) =>
 	User.findById(req.params.id).then(
 		(data) => {
 			if (!data)
@@ -29,9 +27,8 @@ exports.findOne = (req, res) => {
 		},
 		(err) => formatRes(res, null, 500, err)
 	)
-}
 
-exports.update = (req, res) => {
+exports.update = (req, res) =>
 	User.findByIdAndUpdate(req.params.id, req.body, { new: true }).then(
 		(data) => {
 			if (!data)
@@ -45,9 +42,8 @@ exports.update = (req, res) => {
 		},
 		(err) => formatRes(res, null, 500, err)
 	)
-}
 
-exports.deleteUser = (req, res) => {
+exports.deleteUser = (req, res) =>
 	User.findByIdAndRemove(req.params.id).then(
 		(data) => {
 			if (!data)
@@ -61,4 +57,3 @@ exports.deleteUser = (req, res) => {
 		},
 		(err) => formatRes(res, null, 500, err)
 	)
-}
